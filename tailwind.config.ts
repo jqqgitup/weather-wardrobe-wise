@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,27 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Weather theme colors
+				sunny: {
+					light: '#FFB74D',
+					DEFAULT: '#FF9800',
+					dark: '#F57C00'
+				},
+				cloudy: {
+					light: '#ECEFF1',
+					DEFAULT: '#CFD8DC',
+					dark: '#B0BEC5'
+				},
+				rainy: {
+					light: '#B39DDB',
+					DEFAULT: '#9575CD',
+					dark: '#673AB7'
+				},
+				clear: {
+					light: '#90CAF9',
+					DEFAULT: '#2196F3',
+					dark: '#1976D2'
 				}
 			},
 			borderRadius: {
@@ -84,11 +106,32 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-5px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'pulse-slow': 'pulse-slow 3s infinite ease-in-out',
+				'float': 'float 3s infinite ease-in-out'
 			}
 		}
 	},
