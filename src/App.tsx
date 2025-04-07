@@ -5,7 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { App as CapacitorApp } from '@capacitor/app';
+import { App as CapacitorApp, CapacitorException } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -26,12 +27,12 @@ const App = () => {
     };
 
     // Only run in Capacitor environment
-    if (window.Capacitor && window.Capacitor.isNative) {
+    if (Capacitor.isNativePlatform()) {
       setupCapacitor();
     }
 
     return () => {
-      if (window.Capacitor && window.Capacitor.isNative) {
+      if (Capacitor.isNativePlatform()) {
         CapacitorApp.removeAllListeners();
       }
     };
