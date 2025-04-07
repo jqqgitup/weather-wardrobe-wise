@@ -2,8 +2,8 @@
 import { WeatherData } from "../types/weather";
 import { toast } from "@/components/ui/use-toast";
 
-// 彩云天气API (replace with your actual API key)
-const API_KEY = "TAkhjf8d1nlSlspN"; // 彩云天气测试 API key，生产环境应替换为您自己的 key
+// 彩云天气API (with the provided API key)
+const API_KEY = "E2yfcaKev2oZ5rZE"; // 彩云天气 API key
 const BASE_URL = "https://api.caiyunapp.com/v2.6";
 
 // 转换彩云天气API数据为我们的数据结构
@@ -173,8 +173,8 @@ export const fetchWeatherByCity = async (city: string): Promise<WeatherData> => 
 // 使用高德地图API获取城市经纬度
 const fetchCityLocation = async (city: string) => {
   try {
-    // 使用高德地图API的测试key，生产环境应替换
-    const amap_key = "e2b04289e870b005374ee030148d64d2";  // 高德地图Web API测试key
+    // 使用高德地图API的提供的key
+    const amap_key = "488307e472c8e616c0d402f4061bbb89";  // 高德地图Web API key
     const response = await fetch(
       `https://restapi.amap.com/v3/geocode/geo?address=${encodeURIComponent(city)}&key=${amap_key}`
     );
@@ -205,8 +205,8 @@ const fetchCityLocation = async (city: string) => {
 // 通过经纬度获取地点名称
 const fetchLocationName = async (lat: number, lon: number) => {
   try {
-    // 使用高德地图API的测试key
-    const amap_key = "e2b04289e870b005374ee030148d64d2";
+    // 使用高德地图API的提供的key
+    const amap_key = "488307e472c8e616c0d402f4061bbb89";
     const response = await fetch(
       `https://restapi.amap.com/v3/geocode/regeo?location=${lon},${lat}&key=${amap_key}`
     );
@@ -233,7 +233,7 @@ const fetchLocationName = async (lat: number, lon: number) => {
 export const searchCities = async (query: string) => {
   try {
     // 使用高德地图API的地点搜索
-    const amap_key = "e2b04289e870b005374ee030148d64d2";
+    const amap_key = "488307e472c8e616c0d402f4061bbb89";
     const response = await fetch(
       `https://restapi.amap.com/v3/assistant/inputtips?keywords=${encodeURIComponent(query)}&key=${amap_key}`
     );
@@ -260,3 +260,4 @@ export const searchCities = async (query: string) => {
     throw error;
   }
 };
+
