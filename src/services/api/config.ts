@@ -6,7 +6,7 @@ export const CAIYUN_API = {
 };
 
 export const AMAP_API = {
-  KEY: "e8ed0225ca88cae93acb483f0f8b652c", // 高德地图Web API开发者key
+  KEY: "3ccb483f408f14b136b4acee9541841d", // 高德地图Web API开发者key - Updated
   GEOCODE_URL: "https://restapi.amap.com/v3/geocode/geo",
   REGEO_URL: "https://restapi.amap.com/v3/geocode/regeo",
   INPUTTIPS_URL: "https://restapi.amap.com/v3/assistant/inputtips"

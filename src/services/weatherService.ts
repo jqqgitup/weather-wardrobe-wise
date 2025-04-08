@@ -3,7 +3,7 @@ import { WeatherData } from "../types/weather";
 import { toast } from "@/components/ui/use-toast";
 import { CAIYUN_API } from "./api/config";
 import { fetchCityLocation, fetchLocationName, searchCities as searchCitiesAPI } from "./api/locationService";
-import { convertCaiyunToWeatherData } from "./utils/weatherUtils";
+import { convertCaiyunToWeatherData, getWeatherIcon } from "./utils/weatherUtils";
 
 // 通过经纬度获取天气数据
 export const fetchWeatherByCoords = async (
@@ -84,9 +84,9 @@ const generateMockWeatherData = (lat: number, lon: number, cityName = "未知城
         mintemp_f: 59 + Math.floor(Math.random() * 5),
         condition: {
           text: i === 0 ? "晴天" : i === 1 ? "多云" : "小雨",
-          icon: i === 0 ? "https://cdn.jsdelivr.net/gh/qwd/WeatherIcon/dist/icons/fill/sunny.svg" : 
-                i === 1 ? "https://cdn.jsdelivr.net/gh/qwd/WeatherIcon/dist/icons/fill/cloudy-day.svg" : 
-                "https://cdn.jsdelivr.net/gh/qwd/WeatherIcon/dist/icons/fill/rain.svg",
+          icon: i === 0 ? "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg" : 
+                i === 1 ? "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/cloudy-day.svg" : 
+                "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/rain.svg",
           code: i
         }
       },
@@ -106,7 +106,7 @@ const generateMockWeatherData = (lat: number, lon: number, cityName = "未知城
       temp_f: 68 + Math.floor(Math.random() * 9),
       condition: {
         text: "晴天",
-        icon: "https://cdn.jsdelivr.net/gh/qwd/WeatherIcon/dist/icons/fill/sunny.svg",
+        icon: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg",
         code: 0
       },
       wind_kph: 5 + Math.floor(Math.random() * 10),

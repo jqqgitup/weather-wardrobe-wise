@@ -28,8 +28,8 @@ export const getWeatherConditionText = (skycon: string): string => {
 
 // 根据彩云天气的天气代码获取对应的图标URL
 export const getWeatherIcon = (skycon: string): string => {
-  // 使用开源的天气图标URL
-  const iconBase = "https://cdn.jsdelivr.net/gh/qwd/WeatherIcon/dist/icons/fill/";
+  // 使用开源的天气图标URL - 更换为一个不同的CDN
+  const iconBase = "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/";
   
   const skyconMap: Record<string, string> = {
     'CLEAR_DAY': 'sunny.svg',
