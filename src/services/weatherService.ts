@@ -16,30 +16,44 @@ export const fetchWeatherByCoords = async (
     // 构建彩云天气API URL
     const targetUrl = `${CAIYUN_API.BASE_URL}/${CAIYUN_API.KEY}/${lon},${lat}/weather?alert=true&dailysteps=3&hourlysteps=24`;
     
-    // 使用代理服务器来解决CORS问题
-    // 注意：在生产环境中应该使用自己的后端代理或CORS-friendly API
-    const proxyUrl = `https://cors-anywhere.herokuapp.com/`;
-    const response = await fetch(proxyUrl + targetUrl, {
-      headers: {
-        'Accept': 'application/json',
+    try {
+      // 尝试直接获取数据 - 添加必要的CORS头
+      const response = await fetch(targetUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        // 允许包含凭证 (cookies等)
+        credentials: 'include',
+        mode: 'cors'
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("彩云天气API返回数据:", data);
+        
+        // 构造location信息
+        const location = {
+          lat,
+          lon,
+          name: await fetchLocationName(lat, lon)
+        };
+        
+        return convertCaiyunToWeatherData(data, location);
+      } else {
+        console.log(`API请求失败，状态码: ${response.status}，尝试使用备用方法`);
+        throw new Error(`天气数据获取失败: ${response.status}`);
       }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`天气数据获取失败: ${response.status}`);
+    } catch (error) {
+      console.error("直接获取天气数据失败，使用备用方案:", error);
+      
+      // 由于CORS限制，在前端不能直接访问第三方API
+      // 在实际生产应用中，这里应该请求自己的后端API
+      // 为了演示，我们使用模拟数据
+      console.log("使用模拟数据代替API调用");
+      return generateMockWeatherData(lat, lon);
     }
-    
-    const data = await response.json();
-    console.log("彩云天气API返回数据:", data);
-    
-    // 构造location信息
-    const location = {
-      lat,
-      lon,
-      name: await fetchLocationName(lat, lon)
-    };
-    
-    return convertCaiyunToWeatherData(data, location);
   } catch (error) {
     console.error("获取天气数据错误:", error);
     // 使用模拟数据作为后备
@@ -75,6 +89,15 @@ const generateMockWeatherData = (lat: number, lon: number, cityName = "未知城
   const today = new Date();
   const forecastDays = [];
   
+  // 定义天气图标URL
+  const weatherIcons = {
+    sunny: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg",
+    cloudy: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/cloudy-day.svg",
+    rain: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/rain.svg",
+    storm: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/thunderstorms.svg",
+    snow: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/snow.svg"
+  };
+  
   // 生成未来三天的预报数据
   for (let i = 0; i < 3; i++) {
     const date = new Date();
@@ -89,9 +112,9 @@ const generateMockWeatherData = (lat: number, lon: number, cityName = "未知城
         mintemp_f: 59 + Math.floor(Math.random() * 5),
         condition: {
           text: i === 0 ? "晴天" : i === 1 ? "多云" : "小雨",
-          icon: i === 0 ? "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg" : 
-                i === 1 ? "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/cloudy-day.svg" : 
-                "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/rain.svg",
+          icon: i === 0 ? weatherIcons.sunny : 
+                i === 1 ? weatherIcons.cloudy : 
+                weatherIcons.rain,
           code: i
         }
       },
@@ -111,7 +134,7 @@ const generateMockWeatherData = (lat: number, lon: number, cityName = "未知城
       temp_f: 68 + Math.floor(Math.random() * 9),
       condition: {
         text: "晴天",
-        icon: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg",
+        icon: weatherIcons.sunny,
         code: 0
       },
       wind_kph: 5 + Math.floor(Math.random() * 10),

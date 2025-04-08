@@ -2,7 +2,7 @@
 // API configuration and keys
 export const CAIYUN_API = {
   KEY: "E2yfcaKev2oZ5rZE", // 彩云天气API key - Updated
-  BASE_URL: "https://api.caiyunapp.com/v2.6"  // Updated to v2.6
+  BASE_URL: "/api/caiyun/v2.6"  // 使用Vite代理
 };
 
 export const AMAP_API = {
