@@ -13,12 +13,17 @@ export const fetchWeatherByCoords = async (
   try {
     console.log(`正在获取位置(${lat},${lon})的天气数据...`);
     
-    // 添加跨域代理以避免CORS问题
-    const proxyUrl = `https://cors-anywhere.herokuapp.com/`;
+    // 构建彩云天气API URL
     const targetUrl = `${CAIYUN_API.BASE_URL}/${CAIYUN_API.KEY}/${lon},${lat}/weather?alert=true&dailysteps=3&hourlysteps=24`;
     
-    // 直接使用彩云天气API，不使用代理，因为可能不需要
-    const response = await fetch(targetUrl);
+    // 使用代理服务器来解决CORS问题
+    // 注意：在生产环境中应该使用自己的后端代理或CORS-friendly API
+    const proxyUrl = `https://cors-anywhere.herokuapp.com/`;
+    const response = await fetch(proxyUrl + targetUrl, {
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
     
     if (!response.ok) {
       throw new Error(`天气数据获取失败: ${response.status}`);

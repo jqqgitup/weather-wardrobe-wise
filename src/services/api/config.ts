@@ -1,8 +1,8 @@
 
 // API configuration and keys
 export const CAIYUN_API = {
-  KEY: "TAkhjf8d1nlSlspN", // 彩云天气公开测试API key
-  BASE_URL: "https://api.caiyunapp.com/v2.5"
+  KEY: "E2yfcaKev2oZ5rZE", // 彩云天气API key - Updated
+  BASE_URL: "https://api.caiyunapp.com/v2.6"  // Updated to v2.6
 };
 
 export const AMAP_API = {
