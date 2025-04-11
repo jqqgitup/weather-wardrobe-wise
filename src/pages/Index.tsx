@@ -30,7 +30,7 @@ const Index = () => {
       fetchWeatherData(latitude, longitude);
     } else if (locationError) {
       // If geolocation fails, default to a popular city
-      fetchWeatherByCity('Beijing')
+      fetchWeatherByCity('Shanghai')
         .then(data => {
           processWeatherData(data);
         })

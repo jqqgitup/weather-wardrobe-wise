@@ -20,8 +20,8 @@ export const fetchCityLocation = async (city: string) => {
       console.log("找不到该城市的信息");
       // 模拟一些常见城市的坐标
       const mockLocations: Record<string, {lon: number, lat: number}> = {
-        "beijing": {lon: 116.4074, lat: 39.9042},
         "shanghai": {lon: 121.4737, lat: 31.2304},
+        "beijing": {lon: 116.4074, lat: 39.9042},
         "guangzhou": {lon: 113.2644, lat: 23.1291},
         "shenzhen": {lon: 114.0579, lat: 22.5431},
         "hangzhou": {lon: 120.1551, lat: 30.2741}
@@ -33,6 +33,12 @@ export const fetchCityLocation = async (city: string) => {
         return {
           name: city,
           ...mockLocations[cityLower]
+        };
+      }else{
+        return {
+          name: '上海徐汇',
+          lon: parseFloat('121.409702'),
+          lat: parseFloat('31.173743')
         };
       }
       
@@ -72,12 +78,14 @@ export const fetchLocationName = async (lat: number, lon: number) => {
       let estimatedLocation = "未知位置";
       
       // 简易中国主要城市经纬度判断
-      if (lat > 39.5 && lat < 40.5 && lon > 115.5 && lon < 117) {
-        estimatedLocation = "北京";
-      } else if (lat > 30.5 && lat < 32 && lon > 120.5 && lon < 122) {
+      if (lat > 30.5 && lat < 32 && lon > 120.5 && lon < 122) {
         estimatedLocation = "上海";
+      } else if (lat > 39.5 && lat < 40.5 && lon > 115.5 && lon < 117) {
+        estimatedLocation = "北京";
       } else if (lat > 22.5 && lat < 24 && lon > 112.5 && lon < 114) {
         estimatedLocation = "广州";
+      } else{
+        estimatedLocation = "上海";
       }
       
       console.log(`使用估计位置: ${estimatedLocation}`);
@@ -86,6 +94,9 @@ export const fetchLocationName = async (lat: number, lon: number) => {
     
     // 尝试获取最精确的位置名称
     const addressComponent = data.regeocode.addressComponent;
+    if(Array.isArray(addressComponent.city) && addressComponent.city.length === 0){
+      return addressComponent.district || addressComponent.province || "未知位置";
+    }
     return addressComponent.city || addressComponent.district || addressComponent.province || "未知位置";
   } catch (error) {
     console.error("获取位置名称错误:", error);
@@ -117,7 +128,7 @@ export const searchCities = async (query: string) => {
       } else if (query.toLowerCase().includes("guang")) {
         return [{name: "广州", country: "中国"}];
       } else {
-        return [];
+        return [{name: "上海", country: "中国"}];
       }
     }
     

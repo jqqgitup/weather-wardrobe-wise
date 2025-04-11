@@ -28,8 +28,10 @@ export const getWeatherConditionText = (skycon: string): string => {
 
 // 根据彩云天气的天气代码获取对应的图标URL
 export const getWeatherIcon = (skycon: string): string => {
-  // 使用开源的天气图标URL - 更换为一个不同的CDN
-  const iconBase = "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/";
+  // 使用开源的天气图标URL
+  // const iconBase = "https://cdn.jsdelivr.net/gh/qwd/WeatherIcon/dist/icons/fill/";
+  const iconBase = "/public/";
+
   
   const skyconMap: Record<string, string> = {
     'CLEAR_DAY': 'sunny.svg',
@@ -73,13 +75,13 @@ export const convertCaiyunToWeatherData = (data: any, location: any) => {
     const dayData = {
       date: date.toISOString().split('T')[0],
       day: {
-        maxtemp_c: Math.round(result.daily.temperature_max[i]),
-        maxtemp_f: Math.round(result.daily.temperature_max[i] * 9/5 + 32),
-        mintemp_c: Math.round(result.daily.temperature_min[i]),
-        mintemp_f: Math.round(result.daily.temperature_min[i] * 9/5 + 32),
+        maxtemp_c: Math.round(result.daily.temperature[i].max),
+        maxtemp_f: Math.round(result.daily.temperature[i].max * 9/5 + 32),
+        mintemp_c: Math.round(result.daily.temperature[i].min),
+        mintemp_f: Math.round(result.daily.temperature[i].min * 9/5 + 32),
         condition: {
-          text: getWeatherConditionText(result.daily.skycon[i]),
-          icon: getWeatherIcon(result.daily.skycon[i]),
+          text: getWeatherConditionText(result.daily.skycon[i].value),
+          icon: getWeatherIcon(result.daily.skycon[i].value),
           code: i
         }
       },

@@ -3,7 +3,7 @@ import { WeatherData } from "../types/weather";
 import { toast } from "@/components/ui/use-toast";
 import { CAIYUN_API } from "./api/config";
 import { fetchCityLocation, fetchLocationName, searchCities as searchCitiesAPI } from "./api/locationService";
-import { convertCaiyunToWeatherData, getWeatherIcon } from "./utils/weatherUtils";
+import { convertCaiyunToWeatherData } from "./utils/weatherUtils";
 
 // 通过经纬度获取天气数据
 export const fetchWeatherByCoords = async (
@@ -12,7 +12,7 @@ export const fetchWeatherByCoords = async (
 ): Promise<WeatherData> => {
   try {
     console.log(`正在获取位置(${lat},${lon})的天气数据...`);
-    
+        
     // 构建彩云天气API URL
     const targetUrl = `${CAIYUN_API.BASE_URL}/${CAIYUN_API.KEY}/${lon},${lat}/weather?alert=true&dailysteps=3&hourlysteps=24`;
     
@@ -39,7 +39,7 @@ export const fetchWeatherByCoords = async (
           lon,
           name: await fetchLocationName(lat, lon)
         };
-        
+        console.log(location);
         return convertCaiyunToWeatherData(data, location);
       } else {
         console.log(`API请求失败，状态码: ${response.status}，尝试使用备用方法`);
@@ -89,15 +89,16 @@ const generateMockWeatherData = (lat: number, lon: number, cityName = "未知城
   const today = new Date();
   const forecastDays = [];
   
-  // 定义天气图标URL
-  const weatherIcons = {
-    sunny: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg",
-    cloudy: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/cloudy-day.svg",
-    rain: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/rain.svg",
-    storm: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/thunderstorms.svg",
-    snow: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/snow.svg"
-  };
+    // 定义天气图标URL
+    const weatherIcons = {
+      sunny: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/sunny.svg",
+      cloudy: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/cloudy-day.svg",
+      rain: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/rain.svg",
+      storm: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/thunderstorms.svg",
+      snow: "https://unpkg.com/@qwd/weather-icons/dist/icons/fill/snow.svg"
+    };
   
+    
   // 生成未来三天的预报数据
   for (let i = 0; i < 3; i++) {
     const date = new Date();

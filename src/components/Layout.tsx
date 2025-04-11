@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children, weatherBackground = 'bg-gradi
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="text-2xl font-bold flex items-center">
             <span className="mr-2">🧥</span>
-            <span>Weather Wardrobe</span>
+            <span>天气穿搭</span>
           </Link>
         </div>
       </header>
